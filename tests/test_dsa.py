@@ -15,6 +15,7 @@ from queue_stack.stack import Stack
 from sorting_searching.sorting_searching import (
     bubble_sort, selection_sort, insertion_sort, merge_sort, quick_sort, binary_search
 )
+from heap.heap import MinHeap, MaxHeap, heapsort
 
 class TestDSA(unittest.TestCase):
     def test_singly_linked_list(self):
@@ -115,6 +116,33 @@ class TestDSA(unittest.TestCase):
         sorted_arr = [11, 12, 22, 25, 34, 64, 90]
         self.assertEqual(binary_search(sorted_arr, 25), 3)
         self.assertEqual(binary_search(sorted_arr, 999), -1)
+
+    def test_heap(self):
+        # MinHeap insertion and extraction
+        min_h = MinHeap()
+        for v in [50, 30, 20, 40, 10]:
+            min_h.insert(v)
+        self.assertEqual(len(min_h), 5)
+        self.assertEqual(min_h.peek(), 10)
+        extracted = [min_h.extract_min() for _ in range(5)]
+        self.assertEqual(extracted, [10, 20, 30, 40, 50])
+
+        # MinHeap O(n) build from list
+        built_min = MinHeap([35, 12, 45, 2, 8, 19])
+        self.assertEqual(built_min.extract_min(), 2)
+
+        # MaxHeap insertion and extraction
+        max_h = MaxHeap()
+        for v in [10, 40, 20, 50, 30]:
+            max_h.insert(v)
+        self.assertEqual(max_h.peek(), 50)
+        max_extracted = [max_h.extract_max() for _ in range(5)]
+        self.assertEqual(max_extracted, [50, 40, 30, 20, 10])
+
+        # Heapsort ascending & descending
+        arr = [64, 34, 25, 12, 22, 11, 90]
+        self.assertEqual(heapsort(arr), [11, 12, 22, 25, 34, 64, 90])
+        self.assertEqual(heapsort(arr, reverse=True), [90, 64, 34, 25, 22, 12, 11])
 
 if __name__ == '__main__':
     unittest.main()

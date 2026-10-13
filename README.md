@@ -40,6 +40,7 @@ CSD203-DSA-Python/
 │   ├── tree/                  # Binary Search Tree (BST) and AVL Tree
 │   ├── graph/                 # Adjacency matrix, BFS, DFS, Dijkstra, Euler cycle
 │   ├── queue_stack/           # FIFO Queue, LIFO Stack, and PriorityQueue
+│   ├── heap/                  # Binary MinHeap, MaxHeap, Floyd build-heap, and HeapSort
 │   └── sorting_searching/     # Bubble, Selection, Insertion, Merge, Quick sort, Binary search
 ├── assignments/
 │   ├── Assignment1a_CSD.py    # List queries, custom PriorityQueue
@@ -88,6 +89,15 @@ CSD203-DSA-Python/
 - **Sorting**: Bubble Sort, Selection Sort, Insertion Sort, Merge Sort, Quick Sort.
 - **Searching**: Binary Search (logarithmic time on sorted arrays), Linear Search.
 
+### 5. Heap and Priority Queue
+- **Binary Heaps (`MinHeap`, `MaxHeap`)**:
+  - Logarithmic insertion (`push`) and extraction (`pop`) in $O(\log n)$.
+  - Constant-time minimum/maximum inspection (`peek`) in $O(1)$.
+  - Floyd's linear-time heap construction algorithm (`_build_heap`) in $O(n)$.
+- **HeapSort (`heapsort`)**:
+  - In-place comparison sorting with optimal $O(n \log n)$ upper bound and $O(1)$ auxiliary space.
+  - Supports both ascending and descending sorting orders.
+
 ---
 
 ## Practical Examination Solutions
@@ -107,7 +117,7 @@ A comprehensive test suite is provided in `tests/test_dsa.py` covering all data 
 python tests/test_dsa.py
 ```
 
-All 7 test suites validate operations for linked lists, binary trees, self-balancing AVL trees, graph traversals, shortest paths, queue/stack containers, and sorting algorithms.
+All 8 test suites validate operations for linked lists, binary trees, self-balancing AVL trees, graph traversals, shortest paths, queue/stack containers, sorting algorithms, and binary heaps.
 
 ---
 
