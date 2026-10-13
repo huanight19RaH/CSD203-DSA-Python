@@ -1,196 +1,186 @@
-"""
-CSD203 - Binary Heap and HeapSort Implementation
-Provides MinHeap, MaxHeap, and in-place HeapSort algorithms.
-"""
-
-from typing import List, Any, Optional
-
-
 class MinHeap:
-    """
-    Array-based Binary Min-Heap implementation.
-    The parent is always smaller than or equal to its children.
-    """
-
-    def __init__(self, items: Optional[List[Any]] = None):
-        self._heap: List[Any] = []
+    def __init__(self, items=None):
+        self.heap = []
         if items:
-            self._heap = list(items)
-            self._build_heap()
+            self.heap = list(items)
+            self.build_heap()
 
-    def __len__(self) -> int:
-        return len(self._heap)
+    def check_empty(self):
+        return len(self.heap) == 0
 
-    def is_empty(self) -> bool:
-        return len(self._heap) == 0
+    def isEmpty(self):
+        return self.check_empty()
 
-    def peek(self) -> Any:
-        """Return the minimum element without removing it. O(1) time."""
-        if self.is_empty():
-            raise IndexError("Peek from an empty MinHeap.")
-        return self._heap[0]
+    def length(self):
+        return len(self.heap)
 
-    def insert(self, val: Any) -> None:
-        """Insert a new element into the heap. O(log n) time."""
-        self._heap.append(val)
-        self._heapify_up(len(self._heap) - 1)
+    def __len__(self):
+        return self.length()
 
-    def push(self, val: Any) -> None:
-        """Alias for insert."""
+    def peek(self):
+        if self.isEmpty():
+            print("Heap is empty")
+            return None
+        return self.heap[0]
+
+    def insert(self, val):
+        self.heap.append(val)
+        self.heapify_up(len(self.heap) - 1)
+
+    def push(self, val):
         self.insert(val)
 
-    def extract_min(self) -> Any:
-        """Remove and return the minimum element. O(log n) time."""
-        if self.is_empty():
-            raise IndexError("Extract from an empty MinHeap.")
-        min_val = self._heap[0]
-        last_val = self._heap.pop()
-        if not self.is_empty():
-            self._heap[0] = last_val
-            self._heapify_down(0)
+    def extract_min(self):
+        if self.isEmpty():
+            print("Heap is empty")
+            return None
+        min_val = self.heap[0]
+        last_val = self.heap.pop()
+        if not self.isEmpty():
+            self.heap[0] = last_val
+            self.heapify_down(0)
         return min_val
 
-    def pop(self) -> Any:
-        """Alias for extract_min."""
+    def pop(self):
         return self.extract_min()
 
-    def to_list(self) -> List[Any]:
-        """Return a copy of the underlying array representation."""
-        return list(self._heap)
+    def to_list(self):
+        return list(self.heap)
 
-    def _build_heap(self) -> None:
-        """Floyd's heap construction algorithm running in O(n) time."""
-        start_idx = (len(self._heap) // 2) - 1
-        for i in range(start_idx, -1, -1):
-            self._heapify_down(i)
+    def display(self):
+        if self.isEmpty():
+            print("Empty heap")
+            return
+        for x in self.heap:
+            print(x, end=" ")
+        print()
 
-    def _heapify_up(self, index: int) -> None:
+    def build_heap(self):
+        start = (len(self.heap) // 2) - 1
+        for i in range(start, -1, -1):
+            self.heapify_down(i)
+
+    def heapify_up(self, index):
         parent = (index - 1) // 2
-        while index > 0 and self._heap[index] < self._heap[parent]:
-            self._heap[index], self._heap[parent] = self._heap[parent], self._heap[index]
+        while index > 0 and self.heap[index] < self.heap[parent]:
+            self.heap[index], self.heap[parent] = self.heap[parent], self.heap[index]
             index = parent
             parent = (index - 1) // 2
 
-    def _heapify_down(self, index: int) -> None:
-        size = len(self._heap)
+    def heapify_down(self, index):
+        size = len(self.heap)
         smallest = index
         while True:
             left = 2 * index + 1
             right = 2 * index + 2
-
-            if left < size and self._heap[left] < self._heap[smallest]:
+            if left < size and self.heap[left] < self.heap[smallest]:
                 smallest = left
-            if right < size and self._heap[right] < self._heap[smallest]:
+            if right < size and self.heap[right] < self.heap[smallest]:
                 smallest = right
-
             if smallest != index:
-                self._heap[index], self._heap[smallest] = self._heap[smallest], self._heap[index]
+                self.heap[index], self.heap[smallest] = self.heap[smallest], self.heap[index]
                 index = smallest
             else:
                 break
 
 
 class MaxHeap:
-    """
-    Array-based Binary Max-Heap implementation.
-    The parent is always greater than or equal to its children.
-    """
-
-    def __init__(self, items: Optional[List[Any]] = None):
-        self._heap: List[Any] = []
+    def __init__(self, items=None):
+        self.heap = []
         if items:
-            self._heap = list(items)
-            self._build_heap()
+            self.heap = list(items)
+            self.build_heap()
 
-    def __len__(self) -> int:
-        return len(self._heap)
+    def check_empty(self):
+        return len(self.heap) == 0
 
-    def is_empty(self) -> bool:
-        return len(self._heap) == 0
+    def isEmpty(self):
+        return self.check_empty()
 
-    def peek(self) -> Any:
-        """Return the maximum element without removing it. O(1) time."""
-        if self.is_empty():
-            raise IndexError("Peek from an empty MaxHeap.")
-        return self._heap[0]
+    def length(self):
+        return len(self.heap)
 
-    def insert(self, val: Any) -> None:
-        """Insert a new element into the heap. O(log n) time."""
-        self._heap.append(val)
-        self._heapify_up(len(self._heap) - 1)
+    def __len__(self):
+        return self.length()
 
-    def push(self, val: Any) -> None:
-        """Alias for insert."""
+    def peek(self):
+        if self.isEmpty():
+            print("Heap is empty")
+            return None
+        return self.heap[0]
+
+    def insert(self, val):
+        self.heap.append(val)
+        self.heapify_up(len(self.heap) - 1)
+
+    def push(self, val):
         self.insert(val)
 
-    def extract_max(self) -> Any:
-        """Remove and return the maximum element. O(log n) time."""
-        if self.is_empty():
-            raise IndexError("Extract from an empty MaxHeap.")
-        max_val = self._heap[0]
-        last_val = self._heap.pop()
-        if not self.is_empty():
-            self._heap[0] = last_val
-            self._heapify_down(0)
+    def extract_max(self):
+        if self.isEmpty():
+            print("Heap is empty")
+            return None
+        max_val = self.heap[0]
+        last_val = self.heap.pop()
+        if not self.isEmpty():
+            self.heap[0] = last_val
+            self.heapify_down(0)
         return max_val
 
-    def pop(self) -> Any:
-        """Alias for extract_max."""
+    def pop(self):
         return self.extract_max()
 
-    def to_list(self) -> List[Any]:
-        """Return a copy of the underlying array representation."""
-        return list(self._heap)
+    def to_list(self):
+        return list(self.heap)
 
-    def _build_heap(self) -> None:
-        """Floyd's heap construction algorithm running in O(n) time."""
-        start_idx = (len(self._heap) // 2) - 1
-        for i in range(start_idx, -1, -1):
-            self._heapify_down(i)
+    def display(self):
+        if self.isEmpty():
+            print("Empty heap")
+            return
+        for x in self.heap:
+            print(x, end=" ")
+        print()
 
-    def _heapify_up(self, index: int) -> None:
+    def build_heap(self):
+        start = (len(self.heap) // 2) - 1
+        for i in range(start, -1, -1):
+            self.heapify_down(i)
+
+    def heapify_up(self, index):
         parent = (index - 1) // 2
-        while index > 0 and self._heap[index] > self._heap[parent]:
-            self._heap[index], self._heap[parent] = self._heap[parent], self._heap[index]
+        while index > 0 and self.heap[index] > self.heap[parent]:
+            self.heap[index], self.heap[parent] = self.heap[parent], self.heap[index]
             index = parent
             parent = (index - 1) // 2
 
-    def _heapify_down(self, index: int) -> None:
-        size = len(self._heap)
+    def heapify_down(self, index):
+        size = len(self.heap)
         largest = index
         while True:
             left = 2 * index + 1
             right = 2 * index + 2
-
-            if left < size and self._heap[left] > self._heap[largest]:
+            if left < size and self.heap[left] > self.heap[largest]:
                 largest = left
-            if right < size and self._heap[right] > self._heap[largest]:
+            if right < size and self.heap[right] > self.heap[largest]:
                 largest = right
-
             if largest != index:
-                self._heap[index], self._heap[largest] = self._heap[largest], self._heap[index]
+                self.heap[index], self.heap[largest] = self.heap[largest], self.heap[index]
                 index = largest
             else:
                 break
 
 
-def heapsort(arr: List[Any], reverse: bool = False) -> List[Any]:
-    """
-    In-place Heap Sort algorithm.
-    Time Complexity: O(n log n)
-    Space Complexity: O(1) auxiliary space (modifies and returns a copy).
-    """
+def heapsort(arr, reverse=False):
     res = list(arr)
     n = len(res)
     if n <= 1:
         return res
 
-    def _sift_down(start: int, end: int, is_max: bool):
+    def sift_down(start, end, is_max):
         root = start
         while 2 * root + 1 <= end:
             child = 2 * root + 1
             swap = root
-
             if is_max:
                 if res[swap] < res[child]:
                     swap = child
@@ -207,15 +197,12 @@ def heapsort(arr: List[Any], reverse: bool = False) -> List[Any]:
             res[root], res[swap] = res[swap], res[root]
             root = swap
 
-    is_max_heap = not reverse
-
-    # Phase 1: Build heap O(n)
+    is_max = not reverse
     for start in range((n - 2) // 2, -1, -1):
-        _sift_down(start, n - 1, is_max_heap)
+        sift_down(start, n - 1, is_max)
 
-    # Phase 2: Extract elements one by one O(n log n)
     for end in range(n - 1, 0, -1):
         res[0], res[end] = res[end], res[0]
-        _sift_down(0, end - 1, is_max_heap)
+        sift_down(0, end - 1, is_max)
 
     return res
