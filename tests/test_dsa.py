@@ -10,6 +10,7 @@ from linked_list.doubly_linked_list import DoublyLinkedList
 from tree.binary_search_tree import BSTree
 from tree.avl_tree import AVLTree
 from graph.graph_algorithms import Graph
+from graph.disjoint_set import DisjointSet, UnionFind
 from queue_stack.queue import Queue, PriorityQueue
 from queue_stack.stack import Stack
 from sorting_searching.sorting_searching import (
@@ -68,6 +69,22 @@ class TestDSA(unittest.TestCase):
         # AVL height should remain logarithmic (<= 3 or 4)
         self.assertLessEqual(avl.get_height(avl.root), 4)
 
+    def test_disjoint_set(self):
+        dsu = DisjointSet(n=5)
+        self.assertEqual(dsu.count_sets(), 5)
+        self.assertTrue(dsu.union(0, 1))
+        self.assertTrue(dsu.union(1, 2))
+        self.assertFalse(dsu.union(0, 2))  # Already in same set (cycle)
+        self.assertTrue(dsu.connected(0, 2))
+        self.assertFalse(dsu.connected(0, 3))
+        self.assertEqual(dsu.count_sets(), 3)
+
+        # Test character elements
+        char_dsu = DisjointSet(['A', 'B', 'C', 'D'])
+        self.assertTrue(char_dsu.union('A', 'B'))
+        self.assertTrue(char_dsu.connected('A', 'B'))
+        self.assertFalse(char_dsu.connected('A', 'C'))
+
     def test_graph(self):
         # 5-node graph with weighted adjacency matrix
         # 0=A, 1=B, 2=C, 3=D, 4=E
@@ -84,6 +101,40 @@ class TestDSA(unittest.TestCase):
         # Shortest path A -> B -> C -> E -> D: 2 + 1 + 3 + 1 = 7
         self.assertEqual(cost, 7)
         self.assertEqual(path_str, "A-B-C-E-D")
+
+        # Test Prim's MST
+        prim_edges, prim_weight, prim_str = g.prim_mst('A')
+        self.assertEqual(prim_weight, 7)
+        self.assertEqual(len(prim_edges), 4)
+
+        # Test Kruskal's MST
+        kruskal_edges, kruskal_weight, kruskal_str = g.kruskal_mst()
+        self.assertEqual(kruskal_weight, 7)
+        self.assertEqual(len(kruskal_edges), 4)
+
+        # Test Topological Sort on DAG
+        dag_matrix = [
+            [0, 1, 1, 0],  # A -> B, C
+            [0, 0, 0, 1],  # B -> D
+            [0, 0, 0, 1],  # C -> D
+            [0, 0, 0, 0]   # D has no outgoing
+        ]
+        dag = Graph(dag_matrix)
+        order, order_str, has_cycle = dag.topological_sort()
+        self.assertFalse(has_cycle)
+        self.assertEqual(order[0], 'A')
+        self.assertEqual(order[-1], 'D')
+
+        # Test Topological Sort Cycle Detection
+        cyclic_matrix = [
+            [0, 1, 0],
+            [0, 0, 1],
+            [1, 0, 0]
+        ]
+        cyclic_graph = Graph(cyclic_matrix)
+        order_c, order_str_c, has_cycle_c = cyclic_graph.topological_sort()
+        self.assertTrue(has_cycle_c)
+        self.assertIsNone(order_c)
 
     def test_queue_and_stack(self):
         q = Queue()

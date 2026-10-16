@@ -38,7 +38,7 @@ CSD203-DSA-Python/
 ├── src/
 │   ├── linked_list/           # Singly and Doubly Linked Lists
 │   ├── tree/                  # Binary Search Tree (BST) and AVL Tree
-│   ├── graph/                 # Adjacency matrix, BFS, DFS, Dijkstra, Euler cycle
+│   ├── graph/                 # Matrix, BFS, DFS, Dijkstra, Euler cycle, MST (Prim/Kruskal), DSU, TopoSort
 │   ├── queue_stack/           # FIFO Queue, LIFO Stack, and PriorityQueue
 │   ├── heap/                  # Binary MinHeap, MaxHeap, Floyd build-heap, and HeapSort
 │   └── sorting_searching/     # Bubble, Selection, Insertion, Merge, Quick sort, Binary search
@@ -52,6 +52,7 @@ CSD203-DSA-Python/
 │   └── pe_su25/               # Practical Exam Summer 2025 implementations
 ├── tests/
 │   └── test_dsa.py            # Automated unit test suite
+├── ALGORITHM_PROGRESS.md      # Detailed algorithm checklist and session roadmap
 ├── LICENSE
 └── README.md
 ```
@@ -84,6 +85,12 @@ CSD203-DSA-Python/
   - Breadth-First Search (BFS) and Depth-First Search (DFS) traversals.
   - Dijkstra's Algorithm for single-source shortest path with full path reconstruction.
   - Eulerian Cycle via Hierholzer's algorithm using Stack.
+  - Prim's Minimum Spanning Tree (`prim_mst`) with customizable starting vertex.
+  - Kruskal's Minimum Spanning Tree (`kruskal_mst`) integrating DisjointSet.
+  - Topological Sort (`topological_sort`) for Directed Acyclic Graphs (DAG) via Kahn's algorithm with cycle detection.
+- **Disjoint Set Union (`DisjointSet` / `UnionFind`)**:
+  - Near constant-time $O(\alpha(n))$ operations via Path Compression and Union by Rank.
+  - Supports numeric IDs and character/string labels.
 
 ### 4. Sorting and Searching
 - **Sorting**: Bubble Sort, Selection Sort, Insertion Sort, Merge Sort, Quick Sort.
@@ -109,6 +116,12 @@ The `practical_exams/` directory contains structured implementations correspondi
 
 ---
 
+## Algorithm Progress and Roadmap
+
+Track the complete implementation status, covered chapters, and planned sessions in [ALGORITHM_PROGRESS.md](ALGORITHM_PROGRESS.md).
+
+---
+
 ## Unit Testing
 
 A comprehensive test suite is provided in `tests/test_dsa.py` covering all data structures and algorithms:
@@ -117,7 +130,8 @@ A comprehensive test suite is provided in `tests/test_dsa.py` covering all data 
 python tests/test_dsa.py
 ```
 
-All 8 test suites validate operations for linked lists, binary trees, self-balancing AVL trees, graph traversals, shortest paths, queue/stack containers, sorting algorithms, and binary heaps.
+All 9 test suites validate operations for linked lists, binary trees, self-balancing AVL trees, disjoint sets, graph traversals, shortest paths, minimum spanning trees, topological sorting, queue/stack containers, sorting algorithms, and binary heaps.
+
 
 ---
 
